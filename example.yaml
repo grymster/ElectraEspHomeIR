@@ -1,6 +1,40 @@
 esphome:
-  name: YourDevcieName
-  friendly_name: Your Devcie Name
+  name: electra-esp-home-ir
+  friendly_name: "Electra ESPHome IR"
+  name_add_mac_suffix: false
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+logger:
+
+api:
+  id: api_id
+  actions:
+    - action: sync_electra_state
+      then:
+        - lambda: |-
+            id(central_ac).sync_state();
+
+ota:
+  - platform: esphome
+    id: ota_esphome
+  - platform: web_server
+
+wifi:
+  ssid: "YourWifiName"
+  password: "YourWifiPassword"
+  ap:
+
+captive_portal:
+
+web_server:
+  port: 80
+  
+network:
+  enable_ipv6: true
 
 external_components:
   - source:
@@ -8,36 +42,45 @@ external_components:
       url: https://github.com/omersht/ElectraEspHome
       ref: main
 
-api:
-  actions:
-    - action: sync_electra_state
-      then:
-        - lambda: |-
-            id(someid).sync_state();
-
 sensor:
-  - platform: tempsensor
+  - platform: homeassistant
     name: "Temperature"
-    id: temp
+    id: bedroorm_temperature
+    entity_id: sensor.ik_pult_temperature
+
+  - platform: homeassistant
+    name: "Humidity"
+    id: bedroorm_humidity
+    entity_id: sensor.ik_pult_humidity
+
+switch:
+  - platform: gpio
+    pin: GPIO21
+    id: ir_power_21
+    name: "IR System Power"
+    restore_mode: ALWAYS_ON
 
 remote_transmitter:
- pin: (your pin)
- carrier_duty_percent: 50%  #test with different values to see what works best
- id: ir_transmitter
+  pin: GPIO4
+  carrier_duty_percent: 50%
+  id: ir_tx
+  rmt_symbols: 256
 
- remote_receiver:
-  pin: 
-    number: (your pin)
-    inverted: True(or False, try both to see what works)
-    mode: INPUT_PULLUP
-  id: ir_receiver
+remote_receiver:
+  id: ir_rx
+  pin:
+    number: GPIO14
+    inverted: true
+  rmt_symbols: 256
+  dump: all
 
- climate:
+
+climate:
   - platform: electra
-    name: (your name)
-    id: someid
-    transmitter_id: ir_transmitter
-    receiver_id: ir_receiver
-    supports_off_command: True
-    sensor: temp
-    # all options suported in IR Remote Climate are suported
+    name: Central AC
+    id: central_ac
+    transmitter_id: ir_tx
+    receiver_id: ir_rx
+    supports_off_command: False
+    sensor: bedroorm_temperature
+    humidity_sensor: bedroorm_humidity

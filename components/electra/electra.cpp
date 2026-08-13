@@ -45,7 +45,7 @@ void ElectraClimate::transmit_state() {
   auto transmit = this->transmitter_->transmit();
   auto data = transmit.get_data();
 
-  data->set_carrier_frequency(38000);
+  data->set_carrier_frequency(33000);
   uint16_t repeat = 3;
 
   for (uint16_t r = 0; r < repeat; r++) {
