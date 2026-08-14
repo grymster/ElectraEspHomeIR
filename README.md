@@ -1,1 +1,1 @@
-An ESPHome component for controlling Electra ACs as Remote RC-3 with 33 kHz carrier frequency.
+An ESPHome component for controlling Electra ACs by sending generated RC-3 commands with 33 kHz carrier frequency.
