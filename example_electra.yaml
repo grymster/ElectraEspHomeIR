@@ -39,19 +39,20 @@ network:
 external_components:
   - source:
       type: git
-      url: https://github.com/omersht/ElectraEspHome
+      url: https://github.com/grymster/ElectraEspHomeIR
       ref: main
+    refresh: 0s
 
 sensor:
   - platform: homeassistant
     name: "Temperature"
     id: bedroorm_temperature
-    entity_id: sensor.ik_pult_temperature
+    entity_id: sensor.temperature
 
   - platform: homeassistant
     name: "Humidity"
     id: bedroorm_humidity
-    entity_id: sensor.ik_pult_humidity
+    entity_id: sensor.humidity
 
 switch:
   - platform: gpio
