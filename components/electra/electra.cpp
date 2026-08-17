@@ -173,7 +173,7 @@ namespace esphome {
       }
       //set temp
       auto temp = std::lround(clamp(this->target_temperature, this->minimum_temperature_, this->maximum_temperature_));
-      code.temperature = temp - 15;
+      code.temperature = temp - 16;
       ESP_LOGD(TAG, "encoded electra code: %lld", code.num);
       return code;
     }
@@ -244,14 +244,14 @@ namespace esphome {
       }
       
 
-      this->target_temperature = (decode.temperature + 15); // temp
+      this->target_temperature = (decode.temperature + 16); // temperature
 
       active_mode_ = this->mode; // keep the active mode in sync
       this->publish_state(); // update HA
       return true;
 
     }
-    // all fuanction from here down are helper fuanctions for decoding,
+    // all functions from here down are helper functions for decoding,
 
     ElectraCode ElectraClimate::decode_electra(remote_base::RemoteReceiveData data){ // this function recives a mark header-less data(the header space is not stript away, it can be 1 of 2 things) and decodes it.
 
@@ -297,7 +297,7 @@ namespace esphome {
           i += 2;
         }
         else{
-          ESP_LOGV(TAG, "bit duration error,at bit %zu", i);
+          ESP_LOGV(TAG, "bit duration error, at bit %zu", i);
           return { 0 };
         }
         data.advance(); // moves to next bit
@@ -314,7 +314,7 @@ namespace esphome {
           ESP_LOGV(TAG, "not manchester coded");
           return  { 0 };
         }
-      } // munchster tranlation, every 2 bits are migrated into 1, if its 10 -> 1, if 01 -> 0, if 00 or 11, this is an error.
+      } // munchester translation, every 2 bits are migrated into 1, if its 10 -> 1, if 01 -> 0, if 00 or 11, this is an error.
 
       ESP_LOGD(TAG, "decoded code: %lld", decode.num);
 

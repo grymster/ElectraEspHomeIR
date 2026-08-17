@@ -46,12 +46,12 @@ external_components:
 sensor:
   - platform: homeassistant
     name: "Temperature"
-    id: bedroorm_temperature
+    id: ac_temperature
     entity_id: sensor.temperature
 
   - platform: homeassistant
     name: "Humidity"
-    id: bedroorm_humidity
+    id: ac_humidity
     entity_id: sensor.humidity
 
 switch:
@@ -83,5 +83,5 @@ climate:
     transmitter_id: ir_tx
     receiver_id: ir_rx
     supports_off_command: False
-    sensor: bedroorm_temperature
-    humidity_sensor: bedroorm_humidity
+    sensor: ac_temperature
+    humidity_sensor: ac_humidity
