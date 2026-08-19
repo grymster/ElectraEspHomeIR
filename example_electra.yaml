@@ -1,3 +1,4 @@
+# This example for ESP32E-N4 board with built-in IR-receiver and IR-transmitter 
 esphome:
   name: electra-esp-home-ir
   friendly_name: "Electra ESPHome IR"
