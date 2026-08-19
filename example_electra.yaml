@@ -85,3 +85,9 @@ climate:
     supports_off_command: False
     sensor: ac_temperature
     humidity_sensor: ac_humidity
+    visual:
+      min_temperature: 16
+      max_temperature: 30
+      temperature_step:
+        target_temperature: 1
+        current_temperature: 0.1
